@@ -1,0 +1,67 @@
+.form-style{
+    color: rgb(27, 26, 26);
+    
+}
+.forgot{
+    color: rgb(4, 4, 4);
+    font-size:medium;
+}
+::placeholder{
+    text-decoration: rgb(0, 0, 0);
+}
+input[type=text] {
+    background-color: black;
+    color: #FFD700;
+    border-color: black;
+    border-radius: 4%;
+    font-family: "Quicksand", serif;
+ }
+ input[type=password]{
+    background-color: black;
+    color: #FFD700;
+    border-color: black;
+    border-radius: 4%;
+    font-family: "Quicksand", serif;
+ }
+ input[type=email]{
+    background-color: black;
+    color: #FFD700;
+    border-color: black;
+    border-radius: 4%;
+    font-family: "Quicksand", serif;
+ }
+.col-2{
+     background-color: black;
+     position: absolute;
+ }
+.form-container{
+     background: #FFD700;
+     width: 632px;
+     height: 580px;
+     position: absolute;
+     text-align: center;
+     margin-left: 350%;
+     margin-bottom: 100%;
+     box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1);
+}
+.form-container span{
+ font-family: "Quicksand", serif;
+ font-size: xx-large;
+ font-weight: bold;
+ padding: 0 10px;
+ color:rgb(6, 6, 6);
+ width: 100%;
+ display: inline-block;
+}
+.form-btn{
+    display: inline-block;
+    color: rgb(3, 0, 0);
+}
+.form-container form{
+    max-width: 300px;
+    padding: 0 20px;
+   
+}
+.forgot:hover{
+    background-color: transparent;
+}

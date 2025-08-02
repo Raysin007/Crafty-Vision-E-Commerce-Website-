@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crafty1</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Quicksand:wght@300..700&family=Roboto:wght@100..900&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-image: url('images/back.png');
+      background-size: cover;
+      font-family: "Quicksand", sans-serif;
+      color: #FFD700;
+      margin: 0;
+      padding-bottom: 100px;
+    }
+
+    .navbar {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand img {
+      width: 80px;
+      height: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a,
+    .nav-links select,
+    .nav-links span {
+      margin-left: 20px;
+      font-size: 18px;
+      text-decoration: none;
+      color: #FFD700;
+      border: none;
+      background-color: transparent;
+      padding: 8px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links select:hover {
+      background-color: rgba(71, 68, 68, 0.7);
+    }
+
+    .location {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #FFD700;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 16px;
+      z-index: 1000;
+    }
+
+    .search-container {
+      padding: 20px;
+      margin: 80px auto 20px;
+      max-width: 800px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .search-container h2 {
+      color: antiquewhite;
+      margin-bottom: 15px;
+    }
+
+    .search-container input[type="text"] {
+      padding: 10px;
+      width: 70%;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .search-container input::placeholder {
+      color: #aaa;
+    }
+
+    .search-container button {
+      background-color: #FFD700;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 10px;
+    }
+
+    .search-container button:hover {
+      background-color: #ccad00;
+    }
+
+    #searchResults {
+      margin-top: 20px;
+      color: antiquewhite;
+      text-align: left;
+    }
+
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 2000px;
+    }
+
+    .product-section {
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .product-section h2 {
+      color: #FFD700;
+      margin-bottom: 10px;
+    }
+
+    .product-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .product-images img {
+      width: 400px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .product-section p {
+      color: antiquewhite;
+      margin-bottom: 15px;
+    }
+
+    .product-section .price {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .product-section .butt {
+      background-color: #FFD700;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    .product-section .butt:hover {
+      background-color: #ccad00;
+    }
+
+    footer {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #ffd900c6;
+      padding: 20px;
+      text-align: center;
+      bottom: 0;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .footer-links a {
+      color: #ffd900c6;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .copyright {
+      font-size: small;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="#"><img src="images/craftylogo.png" alt="Crafty1 Logo" /></a>
+    <div class="nav-links">
+      <a href="https://www.instagram.com/crafty__vision">About Us</a>
+      <a href="https://www.instagram.com/_man_ish_00">Founder's Desk</a>
+      <select>
+        <option>Customer Care</option>
+        <option>+91 8101178376</option>
+      </select>
+      <a href="login.html">Logout</a>
+<a href="cart.html"><span id="cartCount">🛒 0</span></a>
+    </div>
+  </nav>
+
+  <div class="location">
+    <i class="fa-solid fa-location-dot"></i> Darjeeling 734101
+     
+  </div>
+
+  <div class="search-container">
+    <h2>Search Products</h2>
+    <input type="text" id="searchInput" placeholder="Search for items..." />
+    <button onclick="searchItems()">Search</button>
+    <div id="searchResults"></div>
+  </div>
+
+  <div class="product-list" id="productContainer"></div>
+
+  <div id="paginationControls" style="text-align: center; margin-bottom: 60px;">
+    <button onclick="prevPage()" class="butt">Previous</button>
+    <span id="pageIndicator" style="margin: 0 15px; color: antiquewhite;"></span>
+    <button onclick="nextPage()" class="butt">Next</button>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">Contact Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+    <div class="copyright">
+      &copy; 2025 Crafty1. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    const productList = [
+            { name: "Bonsai Trees", price: "₹ 599", id: "bonsai-trees", images: ["images/fruitbonsai.jpg", "images/greenbonsai.jpg", "images/Pinkbonsai.jpg"], description: "Bonsai trees are a remarkably elegant addition to any home decor. Placing them on bookshelves, dining tables, living rooms, or even in the bedroom or meditation room can turn any space into a luxurious oasis." },
+            { name: "Captain America's Shield", price: "₹ 2200", id: "captain-shield", images: ["images/cap1.jpg", "images/cap2.jpg", "images/cap3.jpg"], description: "Behold the mighty shield of Captain America Steve Rogers forged in perfection. It is the primary defensive and offensive piece of equipment used by Captain America, and is intended to be an emblem of American culture." },
+            { name: "Crochet Batman", price: "₹ 300", id: "crochet-batman", images: ["images/bat1.jpg", "images/bat2.jpg", "images/bat3.jpg"], description: "Discover the ultimate collectible for Batman enthusiasts. Our Crocheted Batman Figurine! Handcrafted with meticulous attention to detail, this miniature rendition of the Dark Knight is sure to captivate fans of all ages." },
+            { name: "Crochet Spidey", price: "₹ 250 / ₹ 549 for two", id: "crochet-spidey", images: ["images/spidey1.jpg", "images/spidey2.jpg", "images/spidey3.jpg"], description: "Our Crocheted Spider-Gwen and Miles Morales Figurine! Handcrafted with meticulous attention to detail, this miniature rendition of the Dynamic Duo is sure to captivate fans of all ages." },
+            { name: "Crochet Dolls", price: "₹ 999", id: "crochet-dolls", images: ["images/dollh1.jpg", "images/dollh2.jpg"], description: "Enhance pretend play with Handmade Crocheted Doll. Each adorable doll is a unique creation, perfect for sparking creativity and imagination. Ideal for gifts or keepsakes, Crochet dolls add a touch of handmade charm to every playtime adventure." },
+            { name: "Crochet Bunny", price: "₹ 499", id: "crochet-bunny", images: ["images/bunny1.jpg"], description: "This incredibly adorable Bunny doll features a charming smile that is sure to light up any child's face. Made with high-quality materials and attention to detail, this doll brings endless joy and imagination to playtime." },
+           { name: "Crochet Cow Keychain", price: "₹ 250", id: "crochet-cow-keychain", images: ["images/cow.jpg"], description: "Looking for the perfect blend of cuteness and practicality? This handmade crochet cow keychain is just what you need! Lovingly crafted from 100% cotton, this adorable farm animal bag charm is soft, durable, and the perfect accessory to brighten up your keys or bags." },
+           { name: "Crochet Octopus Keychain", price: "₹ 120", id: "crochet-octopus-keychain", images: ["images/octo1.jpg", "images/octo2.jpg"], description: "The Crochet Octopus Keychain is the perfect beginner-friendly crochet project that incorporates two styles of arms to choose from. The first is short and stubby featuring the popcorn stitch, the other option is long and curly." },
+           { name: "Mini Bonsai Trees", price: "₹ 299", id: "mini-bonsai-trees", images: ["images/fruitbonsai.jpg", "images/greenbonsai.jpg", "images/Pinkbonsai.jpg"], description: "Bonsai trees are a remarkably elegant addition to any home decor. Placing them on bookshelves, dining tables, living rooms, or even in the bedroom or meditation room can turn any space into a luxurious oasis." },
+           { name: "Crochet Hello Kitty", price: "₹ 349", id: "crochet-hello-kitty", images: ["images/kitty1.jpg", "images/kitty2.jpg"], description: "Our crochet hello kitty is the perfect companion for children's storytime and play, and a decorative accent for a nursery or child's room. Each stitch is made with love, ensuring a unique and personalized hello kitty that will capture your heart and imagination." },
+           { name: "Crochet Rapper", price: "₹ 299", id: "crochet-rapper", images: ["images/rapper1.jpg", "images/rapper2.jpg"], description: "A Rapper Character Custom Order in Chibi Plushie. Amigurumi Stuffed Toy Doll Handmade Softies Gift Baby. Crochet Knit Inspired Plush." },
+           { name: "Crochet Teacher", price: "₹ 299", id: "crochet-teacher", images: ["images/teacher1.jpg", "images/teacher2.jpg"], description: "Handmade Crochet Teacher Doll – The Perfect Gift for Educators! Celebrate the dedication and passion of teachers with this charming handmade crochet teacher doll! Carefully crafted with love and attention to detail." },
+           { name: "Crochet Chef", price: "₹ 299", id: "crochet-chef", images: ["images/chef1.jpg", "images/chef2.jpg"], description: "Handmade Crochet Chef Doll – A Delightful Gift for Food Lovers! This soft and huggable doll features a classic chef’s hat and apron, making it the perfect gift for chefs and food enthusiasts." },
+           { name: "Crochet Doctor", price: "₹ 299", id: "crochet-doctor", images: ["images/doctor1.jpg", "images/doctor2.jpg"], description: "Handmade Crochet Doctor Doll – A Thoughtful Gift for Healthcare Heroes! Designed with intricate details, this soft and charming doll features a classic white coat, stethoscope, and medical accessories, making it a perfect gift for doctors, nurses, medical students, and healthcare workers." },
+           { name: "Crochet Nepali Couple", price: "₹ 120", id: "crochet-nepali-couple", images: ["images/Nepali Couple1.jpg"], description: "Handmade Crochet Nepali Couple Doll – A Beautiful Cultural Keepsake! Dressed in traditional attire, this charming pair showcases the beauty of Nepali culture, making it a perfect gift for loved ones." },
+           { name: "Birthday Embroidery Hoop", price: "₹ 849", id: "birthday-embroidery-hoop", images: ["images/birth1.jpg", "images/birth2.jpg", "images/birth3.jpg"], description: "Handmade Birthday Embroidery Hoop – A Unique & Heartfelt Gift! Celebrate a special birthday with a beautifully handcrafted embroidery hoop! This charming piece is delicately stitched with love, featuring intricate floral patterns, elegant lettering, and customizable designs to make every birthday extra special." },
+           { name: "Crochet Cow", price: "₹ 999", id: "crochet-cow", images: ["images/cowgirl1.jpg", "images/cowgirl2.jpg"], description: "Handmade Crochet Cow – The Perfect Adorable Companion! Meet this irresistibly cute handmade crochet cow, crafted with love and care! With its soft, huggable design, charming little horns, and sweet embroidered details, this cuddly farm friend makes a perfect gift for animal lovers, kids, and collectors alike." },
+           { name: "Crochet Teddy", price: "₹ 999", id: "crochet-teddy", images: ["images/teddy1.jpg", "images/teddy2.jpg"], description: "Handmade Crochet Teddy – A Cuddly Companion Full of Love! Soft, huggable, and lovingly crafted, this charming teddy bear is the perfect gift for babies, kids, and teddy lovers of all ages." },
+           { name: "Handmade Window Phonebooth", price: "₹ 54", id: "handmade-window-phonebooth", images: ["images/window1.jpg", "images/window2.jpg"], description: "Handmade Window Phone Booth – A Vintage Touch with Modern Charm! Inspired by classic telephone booths, this decorative piece blends vintage aesthetics with contemporary craftsmanship." },
+            { name: "Crochet Lily", price: "₹ 179", id: "crochet-lily", images: ["images/lily1.jpg", "images/lily2.jpg"], description: "Handmade Crochet Lily Flower – A Timeless Bloom! Designed with delicate petals and vibrant colors, a thoughtful gift for any occasion." }
+        ];
+
+
+
+    const cart = [];
+    let currentPage = 1;
+    const itemsPerPage = 5;
+
+    function createProductHTML(product) {
+      const imagesHTML = product.images.map(src => `<img src="${src}" alt="${product.name}">`).join('');
+      return `
+        <div class="product-section" id="${product.id}">
+          <h2>${product.name}</h2>
+          <div class="product-images">${imagesHTML}</div>
+          <p>${product.description}</p>
+          <h2>${product.price}</h2>
+          <button class="butt" onclick="addToCart('${product.id}')">Add To Cart</button>
+        </div>
+      `;
+    }
+
+    function addToCart(productId) {
+  const product = productList.find(p => p.id === productId);
+  if (product) {
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(`${product.name} added to cart!`);
+    updateCartCount();
+  }
+}
+
+
+  function updateCartCount() {
+  const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  document.getElementById("cartCount").textContent = `🛒 ${savedCart.length}`;
+}
+
+
+    function paginateProducts(products, page) {
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      return products.slice(start, end);
+    }
+
+    function renderProducts() {
+      const container = document.getElementById("productContainer");
+      const pageIndicator = document.getElementById("pageIndicator");
+      const paginatedProducts = paginateProducts(productList, currentPage);
+      container.innerHTML = paginatedProducts.map(createProductHTML).join('');
+      pageIndicator.textContent = `Page ${currentPage} of ${Math.ceil(productList.length / itemsPerPage)}`;
+    }
+
+    function nextPage() {
+      if (currentPage < Math.ceil(productList.length / itemsPerPage)) {
+        currentPage++;
+        renderProducts();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderProducts();
+      }
+    }
+
+    function searchItems() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const results = productList.filter(product =>
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query)
+      );
+
+      const resultsDiv = document.getElementById("searchResults");
+      const productContainer = document.getElementById("productContainer");
+      productContainer.innerHTML = "";
+
+      if (results.length > 0) {
+        resultsDiv.innerHTML = `<h3>Search Results (${results.length} found)</h3>` +
+          results.map(createProductHTML).join('');
+      } else {
+        resultsDiv.innerHTML = `<p>No items found matching your search.</p>`;
+      }
+    }
+
+   document.addEventListener("DOMContentLoaded", () => {
+  renderProducts();
+  updateCartCount();
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Process</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Dark blue-purple background */
+            color: #e0e0e0; /* Light gray text for contrast */
+        }
+        .form-section {
+            background-color: #2a2a3e; /* Slightly lighter card background */
+            padding: 2rem; /* Increased padding */
+            border-radius: 12px; /* Consistent rounded corners */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Softer shadow */
+            margin-bottom: 2rem; /* Space between sections */
+        }
+        .form-section h2 {
+            color: #f0a500; /* Gold accent for headings */
+            margin-bottom: 1.5rem; /* Space below heading */
+            font-weight: 600;
+            border-bottom: 2px solid #f0a500; /* Underline for heading */
+            padding-bottom: 0.5rem;
+        }
+        .form-input {
+            background-color: #3a3a4e; /* Darker input background */
+            border: 1px solid #5a5a6e; /* Subtle border */
+            color: #e0e0e0;
+            border-radius: 8px; /* Rounded inputs */
+            padding: 0.75rem 1rem; /* Comfortable padding */
+            margin-bottom: 1rem; /* Space between inputs */
+            width: 100%;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-input::placeholder {
+            color: #888;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #f0a500; /* Gold focus border */
+            box-shadow: 0 0 0 3px rgba(240, 165, 0, 0.3); /* Gold focus shadow */
+        }
+        .btn-primary {
+            background-color: #f0a500; /* Gold primary button */
+            color: #1a1a2e; /* Dark text on gold button */
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #dca000; /* Darker gold on hover */
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: #5a5a6e; /* Secondary button color */
+            color: #e0e0e0;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #6a6a7e;
+        }
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Darker backdrop */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #2a2a3e;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 450px; /* Slightly wider modal */
+            text-align: center;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-backdrop.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-content h3 {
+            color: #f0a500;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .modal-content p {
+            color: #c0c0c0; /* Lighter paragraph text in modal */
+            margin-bottom: 1.5rem;
+        }
+        .hidden {
+            display: none !important; /* Use important to override potential conflicts */
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-2xl mx-auto">
+        <div id="shippingSection" class="form-section">
+            <h2>Shipping Address</h2>
+            <form id="addressForm">
+                <label for="fullName" class="block text-sm font-medium mb-1">Full Name</label>
+                <input id="fullName" class="form-input" type="text" placeholder="e.g., Jane Doe" required />
+
+                <label for="streetAddress" class="block text-sm font-medium mb-1 mt-4">Street Address</label>
+                <input id="streetAddress" class="form-input" type="text" placeholder="e.g., 123 Main St, Apt 4B" required />
+
+                <label for="city" class="block text-sm font-medium mb-1 mt-4">City</label>
+                <input id="city" class="form-input" type="text" placeholder="e.g., Anytown" required />
+
+                <label for="postalCode" class="block text-sm font-medium mb-1 mt-4">Postal Code</label>
+                <input id="postalCode" class="form-input" type="text" placeholder="e.g., 12345" required />
+                
+                <button type="submit" class="btn-primary w-full mt-6">Proceed to Payment</button>
+            </form>
+        </div>
+
+        <div id="paymentSection" class="form-section hidden">
+            <h2>Payment Details</h2>
+            <form id="paymentForm">
+                <label for="cardholderName" class="block text-sm font-medium mb-1">Cardholder Name</label>
+                <input id="cardholderName" class="form-input" type="text" placeholder="Name as it appears on card" required />
+
+                <label for="cardNumber" class="block text-sm font-medium mb-1 mt-4">Card Number</label>
+                <input id="cardNumber" class="form-input" type="text" placeholder="XXXX XXXX XXXX XXXX" required pattern="\d{4} ?\d{4} ?\d{4} ?\d{4}" title="Enter a valid 16-digit card number"/>
+
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div>
+                        <label for="expiryDate" class="block text-sm font-medium mb-1">Expiry (MM/YY)</label>
+                        <input id="expiryDate" class="form-input" type="text" placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])\/\d{2}" title="Enter expiry date in MM/YY format"/>
+                    </div>
+                    <div>
+                        <label for="cvv" class="block text-sm font-medium mb-1">CVV</label>
+                        <input id="cvv" class="form-input" type="text" placeholder="XXX" required pattern="\d{3,4}" title="Enter 3 or 4 digit CVV"/>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary w-full mt-6">Submit Payment</button>
+            </form>
+        </div> <div class="cart-container">
+    <div id="cartItems"></div>
+    <div class="total" id="totalPrice">Total: ₹0</div>
+  </div>
+    </div>
+
+    <div id="serviceabilityModal" class="modal-backdrop">
+        <div class="modal-content">
+            <h3>Serviceability Check</h3>
+            <p id="modalMessage">Your postal code <strong id="modalPostalCode" class="text-f0a500"></strong> is serviceable!</p>
+            <button id="continueToPaymentBtn" class="btn-primary w-full">Continue to Payment</button>
+            <button id="cancelModalBtn" class="btn-secondary w-full mt-3">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const shippingSection = document.getElementById('shippingSection');
+        const paymentSection = document.getElementById('paymentSection');
+        const addressForm = document.getElementById('addressForm');
+        const paymentForm = document.getElementById('paymentForm');
+        const serviceabilityModal = document.getElementById('serviceabilityModal');
+        const modalMessage = document.getElementById('modalMessage'); // Though not strictly needed for this version, good for future
+        const modalPostalCode = document.getElementById('modalPostalCode');
+        const continueToPaymentBtn = document.getElementById('continueToPaymentBtn');
+        const cancelModalBtn = document.getElementById('cancelModalBtn');
+        const postalCodeInput = document.getElementById('postalCode');
+
+ let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartItemsDiv = document.getElementById("cartItems");
+    const totalPriceDiv = document.getElementById("totalPrice");
+
+    function renderCart() {
+      cartItemsDiv.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const price = parseInt(item.price.replace(/[^0-9]/g, ""));
+        total += price;
+
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          
+          
+        `;
+        cartItemsDiv.appendChild(div);
+      });
+
+      totalPriceDiv.textContent = `Total: ₹${total}`;
+    }
+
+
+
+
+
+        // Event Listener for Address Form Submission
+        addressForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent actual form submission
+
+            // Basic validation: Check if all fields are filled (browser 'required' handles this mostly)
+            // For more complex validation, add it here.
+            const currentPostalCode = postalCodeInput.value;
+            if (!currentPostalCode.trim()) {
+                // You could show an inline error message here instead of an alert
+                console.error("Postal code is required."); 
+                // For now, we'll rely on the 'required' attribute.
+                return;
+            }
+            
+            modalPostalCode.textContent = currentPostalCode; // Display the entered postal code in the modal
+
+            // Show the serviceability modal
+            serviceabilityModal.classList.add('active');
+        });
+
+        // Event Listener for "Continue to Payment" button in Modal
+        continueToPaymentBtn.addEventListener('click', function() {
+            serviceabilityModal.classList.remove('active'); // Hide modal
+            shippingSection.classList.add('hidden');      // Hide shipping form section
+            paymentSection.classList.remove('hidden');    // Show payment form section
+        });
+
+        // Event Listener for "Cancel" button in Modal
+        cancelModalBtn.addEventListener('click', function() {
+            serviceabilityModal.classList.remove('active'); // Hide modal
+        });
+
+        // Event Listener for Payment Form Submission
+        paymentForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent actual form submission
+
+            // Basic validation for payment form (browser 'required' handles this mostly)
+            // Add more complex validation if needed.
+
+            console.log('Payment form submitted');
+
+            // Retrieve cart from localStorage (or an empty array if not found)
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Create an order summary object (you might want to add more details)
+            const orderDetails = {
+                shippingAddress: {
+                    fullName: document.getElementById('fullName').value,
+                    streetAddress: document.getElementById('streetAddress').value,
+                    city: document.getElementById('city').value,
+                    postalCode: document.getElementById('postalCode').value,
+                },
+                // IMPORTANT: Do NOT store full card details in localStorage in a real application.
+                // This is simplified for the example. In a real scenario, payment processing
+                // would be handled by a secure payment gateway.
+                paymentInfo: {
+                    cardholderName: document.getElementById('cardholderName').value,
+                    // cardNumber: document.getElementById('cardNumber').value, // Example: Don't store sensitive data
+                },
+                items: cart,
+                orderDate: new Date().toISOString()
+            };
+
+            // Store the order summary in localStorage
+            localStorage.setItem('orderSummary', JSON.stringify(orderDetails));
+            console.log('Order summary stored:', orderDetails);
+
+           
+
+            // Redirect to a 'thank you' page (make sure thankyou.html exists)
+            // In a real application, you'd likely pass an order ID or some confirmation.
+            alert('Payment successful! Redirecting to thank you page.'); // Temporary feedback
+            window.location.href = 'thankyou.html';
+        });
+
+        // Optional: Close modal if backdrop is clicked
+        serviceabilityModal.addEventListener('click', function(event) {
+            if (event.target === serviceabilityModal) {
+                serviceabilityModal.classList.remove('active');
+            }
+        });
+renderCart();
+    </script>
+</body>
+</html>
